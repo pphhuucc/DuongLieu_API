@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  api-mssql:
+    image: mcr.microsoft.com/mssql/server:2019-CU9-ubuntu-16.04
+    # volumes are not supported on macOS
+    # volumes:
+    #     - ~/volumes/jhipster/tempdb/mssql/:/var/opt/mssql/data/
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Express
+      - MSSQL_SA_PASSWORD=yourStrong(!)Password
+      - MSSQL_DATABASE=api
+      - MSSQL_SLEEP=60
+    ports:
+      - 1434:1433
+    command: /bin/bash -c '/opt/mssql/bin/sqlservr & echo "wait $$MSSQL_SLEEP sec for DB to start "; sleep $$MSSQL_SLEEP; /opt/mssql-tools/bin/sqlcmd -U sa -P $$MSSQL_SA_PASSWORD -d tempdb -q "EXIT(CREATE DATABASE $$MSSQL_DATABASE)"; wait;'

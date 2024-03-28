@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  api-app:
+    build: ../../..
+    container_name: api-app
+    environment:
+    ports:
+      - 8081:8081
